@@ -13,8 +13,9 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        musicplayer.cpp
+        musicplayer.cpp \
+    radio.cpp
 
-HEADERS  += musicplayer.h
-
+HEADERS  += musicplayer.h \
+    radio.h
 FORMS    += musicplayer.ui
