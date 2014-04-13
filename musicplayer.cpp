@@ -452,3 +452,5 @@ void MusicPlayer::on_cbx_activePL_activated(const QString &arg1)
 {
     selectedToAdd = arg1;
 }
+
+//******************************************************************************************************
