@@ -1,6 +1,7 @@
 #include "musicplayer.h"
 #include "ui_musicplayer.h"
 #include <Qt>
+#include <QLayout>
 #include <QtGui>
 #include <QApplication>
 #include <QtCore>
@@ -18,20 +19,26 @@
 #include <QMessageBox>
 #include <QIcon>
 #include <QInputDialog>
+#include <QColorDialog>
 #include "radio.h"
+
 
 MusicPlayer::MusicPlayer(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MusicPlayer)
 {
     ui->setupUi(this);
+    ui->cbx_activePL->addItem("");
+    ui->cbx_choosePL->addItem("");
     player = new QMediaPlayer(this);
     connect ( ui->menuBar , SIGNAL (triggered( QAction *) ) , this , SLOT(loadSongs(QAction*) ) );
     ui->pb_Favourite->setIcon(QIcon("C://Qt//Tools//QtCreator//bin//MP3P//fav2.png"));
     ui->pB_PlayPause->setIcon(QIcon("C://Qt//Tools//QtCreator//bin//MP3P//playpause.png"));
+    ui->pB_Play->setIcon(QIcon("C://Qt//Tools//QtCreator//bin//MP3P//playpause.png"));
     ui->pB_Stop->setIcon(QIcon("C://Qt//Tools//QtCreator//bin//MP3P//stop.png"));
     ui->pB_forward->setIcon(QIcon("C://Qt//Tools//QtCreator//bin//MP3P//fwd.png"));
     ui->pB_back->setIcon(QIcon("C://Qt//Tools//QtCreator//bin//MP3P//rwd.png"));
+    this->setFixedSize(this->size());
     rad = new Radio();
     rad->test();
     isPlaying = false;
@@ -39,6 +46,21 @@ MusicPlayer::MusicPlayer(QWidget *parent) :
     currentTitle = 0;
     selectedSong = 0;
     shuffleOn = false;
+
+    QFont f( "Arial", 10, QFont::Bold);
+
+    ml = new WidgetMarqueeLabel(this);
+    ml->setTextFormat(Qt::RichText);
+    ml->setGeometry(170,370,481,21);
+    ml->setFrameStyle(QFrame::StyledPanel | QFrame::Sunken);
+    ml->setLineWidth(2);
+    ml->setFont(f);
+    ml->setAutoFillBackground(true);
+    QPalette pal = ml->palette();
+    pal.setColor(QPalette::Window, QColor(Qt::yellow));
+    ml->setPalette(pal);
+    layout()->addWidget(ml);
+
 
     QStringList nameFilter("*.playlist");
     QDir directory("C:\\");
@@ -105,11 +127,12 @@ void MusicPlayer::on_pB_PlayPause_clicked()
 }
 
 void MusicPlayer::metaDataChanged(){
-    ui->lbl_currentPlaying->setText(player->metaData(QMediaMetaData::Author).toString() + " - " +
+    ml->setText(player->metaData(QMediaMetaData::Author).toString() + " - " +
                                     player->metaData(QMediaMetaData::Title).toString() + " - " +
                                     player->metaData(QMediaMetaData::AlbumTitle).toString() + " - " +
                                     player->metaData(QMediaMetaData::Genre).toString() + " - " +
-                                    player->metaData(QMediaMetaData::Year).toString());
+                                    player->metaData(QMediaMetaData::Year).toString() + " - " +
+                                    player->metaData(QMediaMetaData::AudioBitRate).toString());
 
 }
 
@@ -198,10 +221,10 @@ void MusicPlayer::loadSongs(QAction * action)
         if(action->text().toStdString().compare("About") == 0)
         {
              QMessageBox msgBox;
-             QString str = "This project was created by: \n";
-             str = str + "Sascha Scatà\n";
-             str = str + "Jan Raphael Schmid Niederkofler\n";
-             str = str + "Unibz © 2013-2014";
+             QString str = "<p align='center'>This project was created by: \n";
+             str = str + "<p align='center'>Sascha Scatà\n";
+             str = str + "<p align='center'>Jan Raphael Schmid Niederkofler\n";
+             str = str + "<p align='center'>Unibz © 2013-2014";
              msgBox.setText(str);
              msgBox.setWindowTitle("About");
              msgBox.setStandardButtons(QMessageBox::Ok);
@@ -224,8 +247,33 @@ void MusicPlayer::loadSongs(QAction * action)
                 }
             }
         }
+
     }
 
+    if(action->text().toStdString().compare("Background Color") == 0){
+            QString rg = QColorDialog::getColor(Qt::white,this).name();
+            ui->centralWidget->setStyleSheet("background-color: " + rg);
+    }
+
+    if(action->text().toStdString().compare("Button Color") == 0){
+            QString rg = QColorDialog::getColor(Qt::white,this).name();
+            ui->pb_CreateNewPlaylist->setStyleSheet("background-color: " + rg);
+            ui->pb_Favourite->setStyleSheet("background-color: " + rg);
+            ui->pB_addChannel->setStyleSheet("background-color: " + rg);
+    }
+
+    if(action->text().toStdString().compare("Version") == 0){
+        QMessageBox msgBox;
+        QString str = "<p align='center'>Version:<br>";
+        str = str + "<p align='center'>0.1 - Beta\n";
+        str = str + "<p align='center'>Changelog\n";
+        str = str + "<p align='center'>-MusicPlayer full working\n";
+        msgBox.setText(str);
+        msgBox.setWindowTitle("Version");
+        msgBox.setStandardButtons(QMessageBox::Ok);
+        msgBox.setDefaultButton(QMessageBox::Ok);
+        int ret = msgBox.exec();
+    }
 }
 
 void MusicPlayer::on_slider_track_sliderReleased()
@@ -341,7 +389,7 @@ void MusicPlayer::on_pb_Favourite_toggled(bool checked)
 
 void MusicPlayer::on_cbx_choosePL_activated(const QString &arg1)
 {
-    qDebug() << player->PlayingState;
+    ui->cbx_choosePL->removeItem(0);
     selectedPlyList = arg1;
     if(arg1.compare("Favourite.playlist") == 0)
     {
@@ -450,7 +498,30 @@ void MusicPlayer::on_songList_clicked(const QModelIndex &index)
 
 void MusicPlayer::on_cbx_activePL_activated(const QString &arg1)
 {
+    ui->cbx_activePL->removeItem(0);
     selectedToAdd = arg1;
 }
 
 //******************************************************************************************************
+
+void MusicPlayer::closeEvent (QCloseEvent *event)
+{
+    QMessageBox::StandardButton resBtn = QMessageBox::question( this, "MusicPlayer",
+                                                                tr("Are you sure you want to quit?\n"),
+                                                                QMessageBox::No | QMessageBox::Yes,
+                                                                QMessageBox::Yes);
+    if (resBtn != QMessageBox::Yes) {
+        event->ignore();
+    } else {
+        event->accept();
+    }
+}
+
+void MusicPlayer::on_Webbrowser_currentChanged(int index)
+{
+    if(index != 0)
+    {
+        ml->hide();
+    } else
+        ml->show();
+}

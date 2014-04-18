@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>826</width>
-    <height>527</height>
+    <width>841</width>
+    <height>545</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -233,6 +233,9 @@
         <height>21</height>
        </rect>
       </property>
+      <property name="contextMenuPolicy">
+       <enum>Qt::DefaultContextMenu</enum>
+      </property>
       <property name="currentText">
        <string/>
       </property>
@@ -302,43 +305,6 @@
        </rect>
       </property>
      </widget>
-     <widget class="QLabel" name="lbl_currentPlaying">
-      <property name="geometry">
-       <rect>
-        <x>170</x>
-        <y>320</y>
-        <width>481</width>
-        <height>21</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>OCR A Extended</family>
-        <pointsize>11</pointsize>
-        <weight>75</weight>
-        <italic>true</italic>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-color:rgb(255, 255, 0)</string>
-      </property>
-      <property name="frameShape">
-       <enum>QFrame::StyledPanel</enum>
-      </property>
-      <property name="frameShadow">
-       <enum>QFrame::Plain</enum>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="scaledContents">
-       <bool>false</bool>
-      </property>
-      <property name="margin">
-       <number>1</number>
-      </property>
-     </widget>
      <widget class="QLabel" name="lbl_AlbumImage">
       <property name="geometry">
        <rect>
@@ -350,6 +316,9 @@
       </property>
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Sunken</enum>
       </property>
       <property name="text">
        <string/>
@@ -458,13 +427,23 @@
       <property name="geometry">
        <rect>
         <x>40</x>
-        <y>250</y>
-        <width>75</width>
-        <height>23</height>
+        <y>232</y>
+        <width>71</width>
+        <height>41</height>
        </rect>
       </property>
       <property name="text">
-       <string>Play</string>
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>playpause.png</normaloff>playpause.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>43</width>
+        <height>43</height>
+       </size>
       </property>
      </widget>
      <widget class="QPushButton" name="pB_addChannel">
@@ -506,7 +485,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>826</width>
+     <width>841</width>
      <height>21</height>
     </rect>
    </property>
@@ -518,23 +497,18 @@
     <addaction name="actionAdd_to_actvive_plyList"/>
     <addaction name="separator"/>
     <addaction name="actionAbout"/>
+    <addaction name="actionVersion"/>
     <addaction name="actionExit"/>
    </widget>
-   <widget class="QMenu" name="menuWebradio">
+   <widget class="QMenu" name="menuChange_Color">
     <property name="title">
-     <string>Webradio</string>
+     <string>Change Color...</string>
     </property>
-   </widget>
-   <widget class="QMenu" name="menuWebradio_2">
-    <property name="title">
-     <string>About</string>
-    </property>
-    <addaction name="actionVersion_Number"/>
-    <addaction name="actionCreators"/>
+    <addaction name="actionBackground_Color"/>
+    <addaction name="actionButton_Color"/>
    </widget>
    <addaction name="menuMusic_Player"/>
-   <addaction name="menuWebradio"/>
-   <addaction name="menuWebradio_2"/>
+   <addaction name="menuChange_Color"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionMenu">
@@ -575,6 +549,21 @@
   <action name="actionAdd_to_actvive_plyList">
    <property name="text">
     <string>Add to active plyList</string>
+   </property>
+  </action>
+  <action name="actionBackground_Color">
+   <property name="text">
+    <string>Background Color</string>
+   </property>
+  </action>
+  <action name="actionButton_Color">
+   <property name="text">
+    <string>Button Color</string>
+   </property>
+  </action>
+  <action name="actionVersion">
+   <property name="text">
+    <string>Version</string>
    </property>
   </action>
  </widget>

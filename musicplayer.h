@@ -5,6 +5,7 @@
 #include <QString>
 #include <QtMultimedia/QMediaPlayer>
 #include "radio.h"
+#include "widgetmarqueelabel.h"
 
 namespace Ui {
 class MusicPlayer;
@@ -59,8 +60,13 @@ private slots:
 
     void on_cbx_activePL_activated(const QString &arg1);
 
+    void closeEvent (QCloseEvent *event);
+
+    void on_Webbrowser_currentChanged(int index);
 
 private:
+    WidgetMarqueeLabel *ml;
+    int currentSpeed;
     Radio *rad;
     QMediaPlayer *player;
     QTimer *timer;
