@@ -34,13 +34,13 @@ MusicPlayer::MusicPlayer(QWidget *parent) :
     connect ( ui->menuBar , SIGNAL (triggered( QAction *) ) , this , SLOT(loadSongs(QAction*) ) );
     ui->pb_Favourite->setIcon(QIcon("C://Qt//Tools//QtCreator//bin//MP3P//fav2.png"));
     ui->pB_PlayPause->setIcon(QIcon("C://Qt//Tools//QtCreator//bin//MP3P//playpause.png"));
-    ui->pB_Play->setIcon(QIcon("C://Qt//Tools//QtCreator//bin//MP3P//playpause.png"));
+    ui->pB_PlayRadio->setIcon(QIcon("C://Qt//Tools//QtCreator//bin//MP3P//playpause.png"));
+    ui->pb_StopRadio->setIcon(QIcon("C://Qt//Tools//QtCreator//bin//MP3P//stop.png"));
     ui->pB_Stop->setIcon(QIcon("C://Qt//Tools//QtCreator//bin//MP3P//stop.png"));
     ui->pB_forward->setIcon(QIcon("C://Qt//Tools//QtCreator//bin//MP3P//fwd.png"));
     ui->pB_back->setIcon(QIcon("C://Qt//Tools//QtCreator//bin//MP3P//rwd.png"));
     this->setFixedSize(this->size());
     rad = new Radio();
-    rad->test();
     isPlaying = false;
     streamState = 0;
     currentTitle = 0;
@@ -71,6 +71,20 @@ MusicPlayer::MusicPlayer(QWidget *parent) :
         ui->cbx_choosePL->addItem(playLists.at(i));
         ui->cbx_activePL->addItem(playLists.at(i));
     }
+
+
+    QString filename="C:\\RadioList.pls";
+    QFile file( filename );
+    if ( file.open(QIODevice::ReadOnly | QIODevice::Text) )
+    {
+        QTextStream stream( &file );
+        while(!stream.atEnd())
+        {
+            ui->radio_List->addItem(stream.readLine());
+        }
+        file.close();
+        file.resize(0);
+    }
 }
 
 MusicPlayer::~MusicPlayer()
@@ -80,49 +94,52 @@ MusicPlayer::~MusicPlayer()
 
 void MusicPlayer::on_pB_PlayPause_clicked()
 {
-    QString filename="C:\\Favourite.playlist";
-    QFile file( filename );
-    if ( file.open(QIODevice::ReadOnly | QIODevice::Text) )
+    if(player->mediaStatus() != QMediaPlayer::NoMedia)
     {
-        QTextStream stream( &file );
-        //stream << ui->songList->item(currentTitle)->text() << endl;
-        bool oldState = ui->pb_Favourite->blockSignals(true);
-        bool found = false;
-        while(!stream.atEnd()){
-            QString line = stream.readLine();
-           // qDebug() << line;
-           // qDebug() << ui->songList->item(currentTitle)->text();
-            if(line.compare(ui->songList->item(currentTitle)->text()) == 0)
-            {
-                found = true;
-            }
-        }
-        ui->pb_Favourite->setChecked(found);
-        ui->pb_Favourite->blockSignals(oldState);
-    }
-    if(!isPlaying)
-    {
-        if(streamState != 2)
+        QString filename="C:\\Favourite.playlist";
+        QFile file( filename );
+        if ( file.open(QIODevice::ReadOnly | QIODevice::Text) )
         {
-            player->setVolume(50);
-           // player->setMedia(QUrl::fromLocalFile("C:/Users/PlakkaggioHC/Desktop/sample.mp3"));
-            player->play();
-            connect(player, SIGNAL(durationChanged(qint64)), this, SLOT(durationChanged(qint64)));
-            connect(player, SIGNAL(metaDataChanged()), this, SLOT(metaDataChanged()));
-            timer = new QTimer(this);
-
-            QObject::connect(timer, SIGNAL(timeout()), this, SLOT(update_slider()));
-            timer->start(1000); //time specified in ms
-            isPlaying = true;
-        }else{
-            player->play();
-            streamState = 1;
-            isPlaying = true;
+            QTextStream stream( &file );
+            //stream << ui->songList->item(currentTitle)->text() << endl;
+            bool oldState = ui->pb_Favourite->blockSignals(true);
+            bool found = false;
+            while(!stream.atEnd()){
+                QString line = stream.readLine();
+               // qDebug() << line;
+               // qDebug() << ui->songList->item(currentTitle)->text();
+                if(line.compare(ui->songList->item(currentTitle)->text()) == 0)
+                {
+                    found = true;
+                }
+            }
+            ui->pb_Favourite->setChecked(found);
+            ui->pb_Favourite->blockSignals(oldState);
         }
-    } else {
-        player->pause();
-        isPlaying = false;
-        streamState = 2;
+        if(!isPlaying)
+        {
+            if(streamState != 2)
+            {
+                player->setVolume(50);
+               // player->setMedia(QUrl::fromLocalFile("C:/Users/PlakkaggioHC/Desktop/sample.mp3"));
+                player->play();
+                connect(player, SIGNAL(durationChanged(qint64)), this, SLOT(durationChanged(qint64)));
+                connect(player, SIGNAL(metaDataChanged()), this, SLOT(metaDataChanged()));
+                timer = new QTimer(this);
+
+                QObject::connect(timer, SIGNAL(timeout()), this, SLOT(update_slider()));
+                timer->start(1000); //time specified in ms
+                isPlaying = true;
+            }else{
+                player->play();
+                streamState = 1;
+                isPlaying = true;
+            }
+        } else {
+            player->pause();
+            isPlaying = false;
+            streamState = 2;
+        }
     }
 }
 
@@ -338,9 +355,9 @@ void MusicPlayer::on_pB_back_clicked()
 }
 
 
-void MusicPlayer::on_pB_Play_clicked()
+void MusicPlayer::on_pB_PlayRadio_clicked()
 {
-    rad->test();
+    rad->play();
 }
 
 void MusicPlayer::on_pb_Favourite_toggled(bool checked)
@@ -524,4 +541,72 @@ void MusicPlayer::on_Webbrowser_currentChanged(int index)
         ml->hide();
     } else
         ml->show();
+}
+
+void MusicPlayer::on_pb_StopRadio_clicked()
+{
+    rad->stop();
+}
+
+void MusicPlayer::on_pB_addChannel_clicked()
+{
+    QString str = rad->addChannel();
+    ui->radio_List->addItem(str);
+}
+
+void MusicPlayer::on_radio_List_doubleClicked(const QModelIndex &index)
+{
+    int curr = index.row();
+    //qDebug() << ui->radio_List->item(curr)->text();
+    rad->setCurrentChannel(ui->radio_List->item(curr)->text());
+}
+
+void MusicPlayer::on_verticalSlider_valueChanged(int value)
+{
+    rad->setVolume(value);
+}
+
+void MusicPlayer::on_pb_RockButton_clicked()
+{
+    rad->rock();
+}
+
+void MusicPlayer::on_pb_TechnoButton_clicked()
+{
+    rad->techno();
+}
+
+void MusicPlayer::on_pb_PopButton_clicked()
+{
+    rad->pop();
+}
+
+void MusicPlayer::on_pb_JazzButton_clicked()
+{
+    rad->jazz();
+}
+
+void MusicPlayer::on_pb_Top20Button_clicked()
+{
+    rad->top20();
+}
+
+void MusicPlayer::on_pb_CountryButton_clicked()
+{
+    rad->country();
+}
+
+void MusicPlayer::on_pb_ClassicButton_clicked()
+{
+    rad->classic();
+}
+
+void MusicPlayer::on_pb_HipHopButton_clicked()
+{
+    rad->hiphop();
+}
+
+void MusicPlayer::on_pb_PunkButton_clicked()
+{
+    rad->punk();
 }

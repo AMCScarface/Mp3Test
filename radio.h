@@ -10,8 +10,26 @@ class Radio: public QMainWindow
 public:
     explicit Radio();
     ~Radio();
-    void test();
+    void play();
+    void stop();
+    QString addChannel();
+    void setCurrentChannel(QString curr);
+    void setVolume(int value);
 
+    void rock();
+    void techno();
+    void pop();
+    void jazz();
+    void top20();
+    void country();
+    void classic();
+    void hiphop();
+    void punk();
+
+private:
+    QMediaPlayer *player;
+    bool isPlaying;
+    int streamState;
 };
 
 #endif // RADIO_H

@@ -44,7 +44,7 @@ private slots:
 
     void metaDataChanged();
 
-    void on_pB_Play_clicked();
+    void on_pB_PlayRadio_clicked();
 
     void on_pb_Favourite_toggled(bool checked);
 
@@ -63,6 +63,32 @@ private slots:
     void closeEvent (QCloseEvent *event);
 
     void on_Webbrowser_currentChanged(int index);
+
+    void on_pb_StopRadio_clicked();
+
+    void on_pB_addChannel_clicked();
+
+    void on_radio_List_doubleClicked(const QModelIndex &index);
+
+    void on_verticalSlider_valueChanged(int value);
+
+    void on_pb_RockButton_clicked();
+
+    void on_pb_TechnoButton_clicked();
+
+    void on_pb_PopButton_clicked();
+
+    void on_pb_JazzButton_clicked();
+
+    void on_pb_Top20Button_clicked();
+
+    void on_pb_CountryButton_clicked();
+
+    void on_pb_ClassicButton_clicked();
+
+    void on_pb_HipHopButton_clicked();
+
+    void on_pb_PunkButton_clicked();
 
 private:
     WidgetMarqueeLabel *ml;
