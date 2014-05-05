@@ -15,9 +15,11 @@ TEMPLATE = app
 SOURCES += main.cpp\
         musicplayer.cpp \
     radio.cpp \
-    widgetmarqueelabel.cpp
+    widgetmarqueelabel.cpp \
+    recorder.cpp
 
 HEADERS  += musicplayer.h \
     radio.h \
-    widgetmarqueelabel.h
+    widgetmarqueelabel.h \
+    recorder.h
 FORMS    += musicplayer.ui

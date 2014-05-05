@@ -5,6 +5,7 @@
 #include <QString>
 #include <QtMultimedia/QMediaPlayer>
 #include "radio.h"
+#include "recorder.h"
 #include "widgetmarqueelabel.h"
 
 namespace Ui {
@@ -90,10 +91,21 @@ private slots:
 
     void on_pb_PunkButton_clicked();
 
+    void on_pb_StartRecord_clicked();
+
+    void on_pushButtonpb_StopRecord_clicked();
+
+    void on_pb_PauseResumeRecording_clicked();
+
+    void on_sld_recordVolume_valueChanged(int value);
+
+    void on_horizontalSlider_valueChanged(int value);
+
 private:
     WidgetMarqueeLabel *ml;
     int currentSpeed;
     Radio *rad;
+    Recorder *rec;
     QMediaPlayer *player;
     QTimer *timer;
     int currentValue;

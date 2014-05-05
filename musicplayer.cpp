@@ -21,6 +21,7 @@
 #include <QInputDialog>
 #include <QColorDialog>
 #include "radio.h"
+#include "recorder.h"
 
 
 MusicPlayer::MusicPlayer(QWidget *parent) :
@@ -41,6 +42,9 @@ MusicPlayer::MusicPlayer(QWidget *parent) :
     ui->pB_back->setIcon(QIcon("C://Qt//Tools//QtCreator//bin//MP3P//rwd.png"));
     this->setFixedSize(this->size());
     rad = new Radio();
+    rec = new Recorder();
+    ui->pb_PauseResumeRecording->setCheckable(true);
+    ui->horizontalSlider->setRange(0,int(QMultimedia::VeryHighQuality));
     isPlaying = false;
     streamState = 0;
     currentTitle = 0;
@@ -609,4 +613,32 @@ void MusicPlayer::on_pb_HipHopButton_clicked()
 void MusicPlayer::on_pb_PunkButton_clicked()
 {
     rad->punk();
+}
+
+void MusicPlayer::on_pb_StartRecord_clicked()
+{
+    rec->start();
+}
+
+void MusicPlayer::on_pushButtonpb_StopRecord_clicked()
+{
+    rec->terminateRecording();
+}
+
+void MusicPlayer::on_pb_PauseResumeRecording_clicked()
+{
+    if(ui->pb_PauseResumeRecording->isChecked())
+        rec->pauseRecording();
+    else
+        rec->resumeRecording();
+}
+
+void MusicPlayer::on_sld_recordVolume_valueChanged(int value)
+{
+    rec->setVolume(value);
+}
+
+void MusicPlayer::on_horizontalSlider_valueChanged(int value)
+{
+
 }
