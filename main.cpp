@@ -1,6 +1,11 @@
+/**
+  This class represents the Main-class that will start the execution of the
+  project
+*/
 #include "musicplayer.h"
 #include <QApplication>
 #include <QLibrary>
+#include <QProcess>
 
 int main(int argc, char *argv[])
 {

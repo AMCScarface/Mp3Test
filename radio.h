@@ -1,3 +1,7 @@
+/**
+  This Header-File represents the radio-feature of the project, every event produced
+  by a GUI components that belongs to the radio will be handled by this class
+*/
 #ifndef RADIO_H
 #define RADIO_H
 
@@ -16,6 +20,9 @@ public:
     void setCurrentChannel(QString curr);
     void setVolume(int value);
 
+    //*********************************************************************
+    //************************Radio genres*********************************
+    //*********************************************************************
     void rock();
     void techno();
     void pop();

@@ -1,3 +1,7 @@
+/**
+  This class represents the webradio feature of the project. All handled signals from the mainframe
+  will be processed here.
+*/
 #include "radio.h"
 #include <QDebug>
 #include <QtMultimedia/QMediaPlayer>
@@ -6,31 +10,59 @@
 #include <QInputDialog>
 #include <QLineEdit>
 
+/**
+ * @brief Radio::Radio
+ * Constructor that sets up the Radio-class
+ */
 Radio::Radio()
 {
     player = new QMediaPlayer(this);
 }
 
+/**
+ * @brief Radio::~Radio
+ * Destructor
+ */
 Radio::~Radio()
 {
     delete this;
 }
 
+/**
+ * @brief Radio::play
+ * Begin to stream the currently loaded webradio channel
+ */
 void Radio::play()
 {
-    //QUrl url("http://idobiradio.idobi.com/;stream.mp3");
-    player->setVolume(50);
-    //player->setMedia(url);
-    player->play();
-    isPlaying = true;
+    if(player->mediaStatus() != QMediaPlayer::NoMedia)
+    {
+        //QUrl url("http://idobiradio.idobi.com/;stream.mp3");
+        player->setVolume(50);
+        //player->setMedia(url);
+        player->play();
+        isPlaying = true;
+    }
 }
 
+/**
+ * @brief Radio::stop
+ * Stop the currently played webchannel
+ */
 void Radio::stop()
 {
-    player->stop();
-    isPlaying = false;
+    if(player->mediaStatus() != QMediaPlayer::NoMedia)
+    {
+        player->stop();
+        isPlaying = false;
+    }
 }
 
+/**
+ * @brief Radio::addChannel
+ * Add a webradio-channel to the radiolist
+ * @return
+ * The current added channel to be registered into the webradio-list
+ */
 QString Radio::addChannel()
 {
     QString filename="C:\\RadioList.pls";
@@ -50,6 +82,12 @@ QString Radio::addChannel()
     return text;
 }
 
+/**
+ * @brief Radio::setCurrentChannel
+ * Load the current channel to be played
+ * @param curr
+ * The address of the channel
+ */
 void Radio::setCurrentChannel(QString curr)
 {
     QUrl url(curr);
@@ -57,10 +95,20 @@ void Radio::setCurrentChannel(QString curr)
     play();
 }
 
+/**
+ * @brief Radio::setVolume
+ * Set the volume of the web radio player
+ * @param value
+ * The value of the radio to be changed
+ */
 void Radio::setVolume(int value){
     player->setVolume(value);
 }
 
+/**
+ * @brief Radio::rock
+ * Select the rock-channel
+ */
 void Radio::rock()
 {
     if(player->mediaStatus() != QMediaPlayer::NoMedia)
@@ -76,6 +124,10 @@ void Radio::rock()
     }
 }
 
+/**
+ * @brief Radio::techno
+ * Select the techno-channel
+ */
 void Radio::techno()
 {
     if(player->mediaStatus() != QMediaPlayer::NoMedia)
@@ -91,6 +143,10 @@ void Radio::techno()
     }
 }
 
+/**
+ * @brief Radio::pop
+ * Select the pop-channel
+ */
 void Radio::pop()
 {
     if(player->mediaStatus() != QMediaPlayer::NoMedia)
@@ -106,6 +162,10 @@ void Radio::pop()
     }
 }
 
+/**
+ * @brief Radio::jazz
+ * Select the jazz-channel
+ */
 void Radio::jazz()
 {
     if(player->mediaStatus() != QMediaPlayer::NoMedia)
@@ -121,6 +181,10 @@ void Radio::jazz()
     }
 }
 
+/**
+ * @brief Radio::top20
+ * Select the top20-channel
+ */
 void Radio::top20()
 {
     if(player->mediaStatus() != QMediaPlayer::NoMedia)
@@ -136,6 +200,10 @@ void Radio::top20()
     }
 }
 
+/**
+ * @brief Radio::country
+ * Select the country-channel
+ */
 void Radio::country()
 {
     if(player->mediaStatus() != QMediaPlayer::NoMedia)
@@ -151,6 +219,10 @@ void Radio::country()
     }
 }
 
+/**
+ * @brief Radio::classic
+ * Select the classic-channel
+ */
 void Radio::classic()
 {
     if(player->mediaStatus() != QMediaPlayer::NoMedia)
@@ -166,6 +238,10 @@ void Radio::classic()
     }
 }
 
+/**
+ * @brief Radio::hiphop
+ * Select the hiphop-channel
+ */
 void Radio::hiphop()
 {
     if(player->mediaStatus() != QMediaPlayer::NoMedia)
@@ -181,6 +257,10 @@ void Radio::hiphop()
     }
 }
 
+/**
+ * @brief Radio::punk
+ * Select the punk-channel
+ */
 void Radio::punk()
 {
     if(player->mediaStatus() != QMediaPlayer::NoMedia)

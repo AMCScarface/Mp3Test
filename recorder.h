@@ -1,3 +1,7 @@
+/**
+  This Header-File represents the recorder-feature of the project, every event produced
+  by a GUI components that belongs to the recorder will be handled by this class
+*/
 #ifndef RECORDER_H
 #define RECORDER_H
 

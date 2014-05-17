@@ -1,3 +1,6 @@
+/**
+  This class represents the marquee-effect that is implemented in the metadata-jlabel
+*/
 #ifndef _WIDGETMARQUEELABEL_H_
 #define _WIDGETMARQUEELABEL_H_
 
@@ -8,7 +11,8 @@ class WidgetMarqueeLabel : public QLabel
 {
     Q_OBJECT
 
-    public: //Member Functions
+    //Member Functions
+    public:
         enum Direction{LeftToRight,RightToLeft};
         WidgetMarqueeLabel(QWidget *parent = 0);
         ~WidgetMarqueeLabel();
@@ -16,16 +20,19 @@ class WidgetMarqueeLabel : public QLabel
         void setAlignment(Qt::Alignment);
         int getSpeed();
 
-    public slots: //Public Member Slots
+    //Public Member Slots
+    public slots:
         void setSpeed(int s);
         void setDirection(int d);
 
-    protected: //Member Functions
+    //Member Functions
+    protected:
         void paintEvent(QPaintEvent *evt);
         void resizeEvent(QResizeEvent *evt);
         void updateCoordinates();
 
-    private: //Data Members
+    //Data Members
+    private:
         int px;
         int py;
         QTimer timer;
@@ -35,7 +42,8 @@ class WidgetMarqueeLabel : public QLabel
         int fontPointSize;
         int textLength;
 
-    private slots: //Private Member Slots
+    //Private Member Slots
+    private slots:
         void refreshLabel();
 };
 #endif /*_WIDGETMARQUEELABEL_H_*/

@@ -1,3 +1,7 @@
+/**
+  This Header-File represents the mainframe of the whole project, every event produced
+  by the GUI components are catched in this class
+*/
 #ifndef MUSICPLAYER_H
 #define MUSICPLAYER_H
 
@@ -20,7 +24,13 @@ public:
     explicit MusicPlayer(QWidget *parent = 0);
     ~MusicPlayer();
     Ui::MusicPlayer *ui;
+
+    //Slots that are actual event handlers, every single GUI component is related
+    //to one of this slots
 private slots:
+    //*********************************************************************
+    //************************Mp3 Player Slots*****************************
+    //*********************************************************************
     void on_pB_PlayPause_clicked();
 
     void on_pB_Stop_clicked();
@@ -65,6 +75,9 @@ private slots:
 
     void on_Webbrowser_currentChanged(int index);
 
+    //*********************************************************************
+    //************************Web radio slots******************************
+    //*********************************************************************
     void on_pb_StopRadio_clicked();
 
     void on_pB_addChannel_clicked();
@@ -93,6 +106,10 @@ private slots:
 
     void on_pb_StartRecord_clicked();
 
+    //*********************************************************************
+    //************************Audio Recorder slots*************************
+    //*********************************************************************
+
     void on_pushButtonpb_StopRecord_clicked();
 
     void on_pb_PauseResumeRecording_clicked();
@@ -101,12 +118,15 @@ private slots:
 
     void on_horizontalSlider_valueChanged(int value);
 
+    //Variables that are needed for audio and GUI processing
 private:
+    QObject *parentProcess;
     WidgetMarqueeLabel *ml;
     int currentSpeed;
     Radio *rad;
     Recorder *rec;
     QMediaPlayer *player;
+    //Timer used for current song duration
     QTimer *timer;
     int currentValue;
     bool isPlaying;

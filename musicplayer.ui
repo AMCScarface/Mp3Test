@@ -806,24 +806,6 @@
       </widget>
      </widget>
     </widget>
-    <widget class="QWidget" name="tab">
-     <attribute name="title">
-      <string>Page</string>
-     </attribute>
-     <widget class="QLabel" name="label">
-      <property name="geometry">
-       <rect>
-        <x>330</x>
-        <y>220</y>
-        <width>131</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Still to discuss how it looks</string>
-      </property>
-     </widget>
-    </widget>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
@@ -841,6 +823,8 @@
     </property>
     <addaction name="actionLoad_List"/>
     <addaction name="actionAdd_to_actvive_plyList"/>
+    <addaction name="separator"/>
+    <addaction name="actionStart_Webbrowser"/>
     <addaction name="separator"/>
     <addaction name="actionAbout"/>
     <addaction name="actionVersion"/>
@@ -910,6 +894,11 @@
   <action name="actionVersion">
    <property name="text">
     <string>Version</string>
+   </property>
+  </action>
+  <action name="actionStart_Webbrowser">
+   <property name="text">
+    <string>Start Webbrowser</string>
    </property>
   </action>
  </widget>
